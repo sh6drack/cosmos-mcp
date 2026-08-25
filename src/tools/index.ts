@@ -114,6 +114,24 @@ export const TOOLS: ToolDef[] = [
       client.captureTurn(input as Parameters<CosmosClient["captureTurn"]>[0]),
   },
   {
+    name: "polarity_reconstruct_hours",
+    description:
+      "Persist life-hour receipts onto the skill map sky for this user only. Use from Cosmos IDE / Cursor after substantive work: newline-separated roles with dates when known (e.g. 'UMBC tutor Feb 2019-May 2022'). No product seed — only what this user earned. Returns fog status and star count. Prefer this over inventing biography; pair with polarity_capture_turn for conversation memory.",
+    inputSchema: z
+      .object({
+        text: z.string().min(1).max(16000).optional(),
+        lines: z.array(z.string().min(1).max(500)).max(48).optional(),
+        source: z.string().max(64).optional(),
+        kind: z.enum(["here"]).optional(),
+      })
+      .strict()
+      .refine((v) => !!(v.text || (v.lines && v.lines.length)), {
+        message: "text or lines required",
+      }),
+    handler: async (input, client) =>
+      client.reconstructHours(input as Parameters<CosmosClient["reconstructHours"]>[0]),
+  },
+  {
     name: "polarity_dump",
     description:
       "Write a short message tied to a location waypoint into the user's graph. PolarityGPS-style. Use only when the user is explicitly recording a place-anchored thought.",

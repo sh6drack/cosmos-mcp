@@ -190,6 +190,22 @@ export class CosmosClient {
       path: "/api/polarity/whoami",
     });
   }
+
+  reconstructHours(input: {
+    text?: string;
+    lines?: string[];
+    source?: string;
+    kind?: "here";
+  }) {
+    return this.request<ReconstructHoursResponse>({
+      method: "POST",
+      path: "/api/polarity/reconstruct-hours",
+      body: {
+        polarity_user_id: this.config.polarityUserId,
+        ...input,
+      },
+    });
+  }
 }
 
 // Response shapes — loose, since cosmos owns the source of truth.
@@ -273,4 +289,13 @@ export interface WhoamiResponse {
   cosmos_user_id: number;
   scopes?: string[];
   created_at?: string;
+}
+
+export interface ReconstructHoursResponse {
+  ok: boolean;
+  fog: boolean;
+  star_count: number;
+  future_text?: string;
+  future?: unknown;
+  summary?: unknown;
 }

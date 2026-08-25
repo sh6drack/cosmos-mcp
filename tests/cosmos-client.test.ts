@@ -271,6 +271,22 @@ describe("CosmosClient method routes + bodies", () => {
     expect(String(url)).toBe("https://cosmos.example.com/api/polarity/declare");
     expect(JSON.parse(init.body as string).chip).toBe("tonight");
   });
+
+  it("reconstructHours → POST /api/polarity/reconstruct-hours", async () => {
+    const fetchMock = mockOkJson({ ok: true, fog: false, star_count: 3 });
+    globalThis.fetch = fetchMock as unknown as typeof fetch;
+    await new CosmosClient(mcpKeyConfig).reconstructHours({
+      lines: ["UMBC tutor Feb 2019-May 2022", "Kyros AI instructor Jun 2026-Present"],
+      source: "cursor",
+    });
+    const [url, init] = lastCall(fetchMock);
+    expect(String(url)).toBe("https://cosmos.example.com/api/polarity/reconstruct-hours");
+    expect(JSON.parse(init.body as string)).toEqual({
+      polarity_user_id: "user-abc",
+      lines: ["UMBC tutor Feb 2019-May 2022", "Kyros AI instructor Jun 2026-Present"],
+      source: "cursor",
+    });
+  });
 });
 
 describe("CosmosClient against a non-root cosmosUrl base", () => {

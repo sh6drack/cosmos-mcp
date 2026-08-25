@@ -116,6 +116,7 @@ Eleven tools, four read, seven write.
 | `polarity_record_event` | `POST /api/polarity/observe` (kind=event) | Something happened at a point in time. |
 | `polarity_record_preference` | `POST /api/polarity/observe` (kind=preference) | A like, dislike, working-style rule. |
 | `polarity_capture_turn` | `POST /api/polarity/capture-turn` | Hand a whole user/assistant exchange to cosmos. Pulls every durable observation in one call. Prefer over multiple `polarity_observe` calls. |
+| `polarity_reconstruct_hours` | `POST /api/polarity/reconstruct-hours` | Persist life-hour receipts onto the skill-map sky (per user only). Use from Cursor/Cosmos IDE after substantive work. |
 | `polarity_dump` | `POST /api/polarity/dump` | Location-anchored short message. |
 | `polarity_checkin` | `POST /api/polarity/checkin` | Check-in at a waypoint. Triggers co-presence detection. |
 | `polarity_declare` | `POST /api/polarity/declare` | Declare future presence at a waypoint. |
